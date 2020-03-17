@@ -16,10 +16,7 @@ PRODUCT_SOONG_NAMESPACES += $(DEVICE_PATH)
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay \
-    $(LOCAL_PATH)/overlay-aosip
-
-PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += \
-    $(LOCAL_PATH)/overlay-potato/packages/apps/Snap
+    $(LOCAL_PATH)/overlay-derp
 
 # Audio
 PRODUCT_COPY_FILES += \
@@ -38,4 +35,4 @@ PRODUCT_PACKAGES += \
 
 # tri-state key
 PRODUCT_PACKAGES += \
-    tri-state-key-calibrate_daemon
+#    tri-state-key-calibrate_daemon

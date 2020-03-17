@@ -1,6 +1,7 @@
 #!/bin/bash
 #
-# Copyright (C) 2019 The LineageOS Project
+# Copyright (C) 2016 The CyanogenMod Project
+# Copyright (C) 2017 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,11 +18,31 @@
 
 set -e
 
-# Required!
-export DEVICE=guacamoleb
-export DEVICE_COMMON=sm8150-common
-export VENDOR=oneplus
+DEVICE=guacamoleb
+VENDOR=oneplus
 
-export DEVICE_BRINGUP_YEAR=2019
+INITIAL_COPYRIGHT_YEAR=2020
 
-"./../../${VENDOR}/${DEVICE_COMMON}/setup-makefiles.sh" "$@"
+# Load extract_utils and do some sanity checks
+MY_DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$MY_DIR" ]]; then MY_DIR="$PWD"; fi
+
+aosip_ROOT="$MY_DIR"/../../..
+
+HELPER="$aosip_ROOT"/vendor/aosip/build/tools/extract_utils.sh
+if [ ! -f "$HELPER" ]; then
+    echo "Unable to find helper script at $HELPER"
+    exit 1
+fi
+. "$HELPER"
+
+# Initialize the helper
+setup_vendor "$DEVICE" "$VENDOR" "$aosip_ROOT"
+
+# Copyright headers and guards
+write_headers
+
+write_makefiles "$MY_DIR"/proprietary-files.txt
+
+# Finish
+write_footers
